@@ -56,6 +56,9 @@ node go2web.js -s "<search-term>"
 
 Here is a good exemple:
 ```
+node go2web.js -s "OpenAI"
+```
+```
 node go2web.js -u http://google.com
 ```
 
@@ -92,6 +95,11 @@ The CLI arguments will be parsed using basic process.argv to identify -u, -s, an
 - `Receive Response`: Get the server's response.
 - `Parse Response`: Use responseParser.js to handle redirects, HTML, or JSON.
 - `Display Content`: Show the parsed content in the terminal.
+
+<br>
+
+- `HTTP Client` (httpClient.js): Manages TCP connections to make HTTP requests and handle responses.
+- `CLI Parser` (cliParser.js): Parses command-line arguments to understand user commands.
 
 ## Contributions
 This project is open to contributions. If you wish to contribute, please fork the repository and submit a pull request with your proposed changes.
