@@ -53,15 +53,38 @@ const fetchUrl = (hostname, path = '/') => { // Define a function to fetch conte
 };
 
 const options = parseArgs(); // Parse the command-line arguments.
+const searchWeb = (searchTerm) => {
+    // For this example, we're pretending DuckDuckGo allows simple GET requests over HTTP, which it does not in reality.
+    const searchHost = 'html.duckduckgo.com';
+    const searchPath = `/html/?q=${encodeURIComponent(searchTerm)}`;
+
+    const client = new net.Socket();
+    client.connect(80, searchHost, () => {
+        console.log(`Searching for "${searchTerm}"`);
+        client.write(`GET ${searchPath} HTTP/1.1\r\nHost: ${searchHost}\r\n\r\n`);
+    });
+
+    let responseBody = '';
+
+    client.on('data', (chunk) => {
+        responseBody += chunk.toString();
+    });
+
+    client.on('end', () => {
+        console.log('Search complete. Processing results...');
+        // Here, you'd process the responseBody to extract and print the search results.
+        // This requires parsing the HTML response, which is non-trivial without libraries.
+        console.log(responseBody); // This will print the raw HTML response for demonstration.
+    });
+};
 
 if (options.help) {
     displayHelp();
-} else if (options.url) { // If a URL was provided,
+} else  if(options.url) { // If a URL was provided,
     const url = new URL(options.url); // Create a URL object from the provided URL string.
     fetchUrl(url.hostname, url.pathname); // Fetch content from the URL.
 } else if (options.search) {
-    console.log('Search functionality not implemented.');
-    // Implement search functionality here.
-} else {
-    console.log('Usage: node go2web.js -h for help.');
-}
+        searchWeb(options.search);
+    } else {
+        console.log('Usage: node go2web.js -h for help.');
+    }
